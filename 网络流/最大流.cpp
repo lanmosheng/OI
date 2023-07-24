@@ -32,13 +32,14 @@ int bfs(){
     return dep[t];
 }
 int dfs(int x,int flow){
-    if(!flow||x==t) return flow;
+    if(x==t) return flow;
     int ret=0;
-    for(int i=cur[x];i;i=nxt[i]){
+    for(int i=cur[x];i&&flow;i=nxt[i]){
         cur[x]=i;
         int y=to[i];
         if(val[i]>0&&(dep[y]==dep[x]+1)){
             int tmp=dfs(y,min(flow,val[i]));
+            if(tmp==0) dep[y]=0;
             val[i]-=tmp;
             val[i^1]+=tmp;
             ret+=tmp;
